@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:mychat/screens/authenticate.dart';
+import 'package:mychat/model/usermodel.dart';
 import 'package:mychat/service/authservice.dart';
+import 'package:mychat/service/database.dart';
 import 'package:mychat/wrapper.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   runApp(
-    ChangeNotifierProvider(
+    MultiProvider(
+      providers: [
+         ChangeNotifierProvider(
       create: (context) => Authservice(),
+      child: const MyApp(),
+    ),
+        StreamProvider<List<Usermodel>>.value(
+          value: Database(uid: 'uid').allUsers,  
+          initialData: [],             
+          catchError: (_, __) => [],   
+        ),
+      ],
       child: const MyApp(),
     ),
   );

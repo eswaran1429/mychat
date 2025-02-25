@@ -3,7 +3,6 @@ import 'package:mychat/screens/authenticate.dart';
 import 'package:mychat/screens/homepage.dart';
 import 'package:mychat/service/authservice.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class Wrapper extends StatelessWidget {
   const Wrapper({super.key});
@@ -11,9 +10,8 @@ class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<Authservice>(context);
-    print(user);
     return StreamBuilder(
-        stream:FirebaseAuth.instance.authStateChanges(),
+        stream: Stream.value(user.currentUser),
         builder: (context, snap) {
           if (snap.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();

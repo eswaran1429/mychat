@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mychat/model/usermodel.dart';
+import 'package:mychat/service/database.dart';
 class Authservice extends ChangeNotifier{
   final _auth = FirebaseAuth.instance;
 
@@ -22,6 +23,7 @@ class Authservice extends ChangeNotifier{
   Future anonymousLogin() async{
     try {
      UserCredential userCredential =  await _auth.signInAnonymously();
+     Database(uid: currentUser!.uid).addUser(currentUser!.uid);
      print(userCredential);
      return userCredential;
     } catch (e) {
