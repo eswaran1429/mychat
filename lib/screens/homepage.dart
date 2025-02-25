@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mychat/model/usermodel.dart';
+import 'package:mychat/screens/chatscreen.dart';
 import 'package:mychat/service/authservice.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +16,7 @@ class _HomepageState extends State<Homepage> {
   
   @override
   Widget build(BuildContext context) {
-    final _user = Provider.of<List<Usermodel>>(context) ?? [];
+    final _user = Provider.of<List<Usermodel>>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chats'),
@@ -24,12 +25,17 @@ class _HomepageState extends State<Homepage> {
         }, icon: const Icon(Icons.logout_outlined))],
       ),
       body: ListView.builder(
-        itemCount: _user.length ?? 0 ,
+        itemCount: _user.length ,
         itemBuilder:(context,index){
-         return Card(
-          elevation: 5,
-           child: ListTile(
-            title: Text(_user[index].uid),leading: Icon(Icons.person),
+         return InkWell(
+          onTap: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Chatscreen()));
+          },
+           child: Card(
+            elevation: 5,
+             child: ListTile(
+              title: Text(_user[index].uid),leading: const Icon(Icons.person),
+             ),
            ),
          );
         } )
