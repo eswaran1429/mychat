@@ -11,13 +11,25 @@ class Authenticate extends StatefulWidget {
 class _AuthenticateState extends State<Authenticate> {
 
   final Authservice _auth = Authservice();
+  String email = 'b@b.com';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: ElevatedButton(onPressed: () async{
-          await _auth.anonymousLogin();
-        }, child:Text('anonymous signin')),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(onPressed: () async{
+              await _auth.anonymousLogin();
+            }, child:Text('anonymous signin')),
+               ElevatedButton(onPressed: () async{
+              await _auth.register(email, 'password');
+            }, child:Text('register')),
+            ElevatedButton(onPressed: () async{
+              await _auth.login(email, 'password');
+            }, child:Text('login')),
+          ],
+        ),
       ),
     );
   }

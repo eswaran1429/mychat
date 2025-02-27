@@ -3,6 +3,7 @@ import 'package:mychat/model/usermodel.dart';
 import 'package:mychat/screens/chatscreen.dart';
 import 'package:mychat/service/authservice.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -17,6 +18,7 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     final _user = Provider.of<List<Usermodel>>(context);
+    final _currentuser = FirebaseAuth.instance.currentUser;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Chats'),
@@ -29,7 +31,7 @@ class _HomepageState extends State<Homepage> {
         itemBuilder:(context,index){
          return InkWell(
           onTap: (){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Chatscreen()));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Chatscreen(senderid: _currentuser!.uid,receiverId: _user[index].uid,)));
           },
            child: Card(
             elevation: 5,

@@ -1,5 +1,5 @@
 class Usermodel {
   final String uid;
-
-  Usermodel({required this.uid});
+  final String email;
+  Usermodel( {required this.email,required this.uid});
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:mychat/model/messagemodel.dart';
 import 'package:mychat/model/usermodel.dart';
 import 'package:mychat/service/authservice.dart';
 import 'package:mychat/service/database.dart';
@@ -13,21 +14,20 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-         ChangeNotifierProvider(
-      create: (context) => Authservice(),
-      child: const MyApp(),
-    ),
+        ChangeNotifierProvider(
+          create: (context) => Authservice(),
+          child: const MyApp(),
+        ),
         StreamProvider<List<Usermodel>>.value(
-          value: Database(uid: 'uid').allUsers,  
-          initialData: [],             
-          catchError: (_, __) => [],   
+          value: Database(uid: 'uid').allUsers,
+          initialData: [],
+          catchError: (_, __) => [],
         ),
       ],
       child: const MyApp(),
     ),
   );
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -38,7 +38,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        
         useMaterial3: true,
       ),
       home: Wrapper(),
