@@ -60,12 +60,11 @@ class Database {
       .map((snap) {
     return snap.docs.map((doc) {
       final data = doc.data(); // No need for explicit casting
-      print(data);
       return Messagemodel(
         senderId: data['senderId'] ?? 'no id',
         receiverId: data['receiverId'] ?? 'no id',
         message: data['text'] ?? 'no message',
-        time: data['timestamp'] ?? Timestamp.now(), // ✅ Ensure valid timestamp
+        time: (data['timestamp'] as Timestamp).toDate(), // ✅ Ensure valid timestamp
       );
     }).toList();
   });

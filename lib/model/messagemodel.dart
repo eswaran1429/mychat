@@ -2,7 +2,7 @@ class Messagemodel {
   final String senderId;
   final String receiverId;
   final String message;
-  final String time;
+  final DateTime time;
 
   Messagemodel(
       {required this.senderId,
