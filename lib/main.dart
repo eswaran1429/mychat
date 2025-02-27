@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:mychat/model/messagemodel.dart';
 import 'package:mychat/model/usermodel.dart';
 import 'package:mychat/service/authservice.dart';
 import 'package:mychat/service/database.dart';
