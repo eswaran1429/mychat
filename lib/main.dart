@@ -1,14 +1,25 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:mychat/model/usermodel.dart';
 import 'package:mychat/service/authservice.dart';
-import 'package:mychat/service/database.dart';
 import 'package:mychat/wrapper.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+ if (kIsWeb) {
+    await Firebase.initializeApp(options: const FirebaseOptions(
+    apiKey: "AIzaSyCMMsv614G-v90pbvxWNLcb1yjD6FJEjD0",
+  authDomain: "chat-3681b.firebaseapp.com",
+  projectId: "chat-3681b",
+  storageBucket: "chat-3681b.firebasestorage.app",
+  messagingSenderId: "538254446573",
+  appId: "1:538254446573:web:647f30f64e3ad989c1a1e4",
+  measurementId: "G-0TPJL2S5S1"));
+ } else {
+   await Firebase.initializeApp();
+ }
+
 
   runApp(
     MultiProvider(
@@ -17,11 +28,7 @@ void main() async {
           create: (context) => Authservice(),
           child: const MyApp(),
         ),
-        StreamProvider<List<Usermodel>>.value(
-          value: Database(uid: 'uid').allUsers,
-          initialData: [],
-          catchError: (_, __) => [],
-        ),
+       
       ],
       child: const MyApp(),
     ),
@@ -39,7 +46,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: Wrapper(),
+      home: const Wrapper(),
     );
   }
 }

@@ -11,7 +11,7 @@ class Authenticate extends StatefulWidget {
 class _AuthenticateState extends State<Authenticate> {
 
   final Authservice _auth = Authservice();
-  String email = 'b@b.com';
+  String email = 'a@a.com';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
