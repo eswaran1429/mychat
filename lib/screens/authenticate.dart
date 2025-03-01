@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mychat/service/authservice.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 class Authenticate extends StatefulWidget {
   const Authenticate({super.key});
@@ -9,28 +10,200 @@ class Authenticate extends StatefulWidget {
 }
 
 class _AuthenticateState extends State<Authenticate> {
-
   final Authservice _auth = Authservice();
-  String email = 'a@a.com';
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  bool _isLoading = false;
+  bool isNewUser = true;
+
+  void _register() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() => _isLoading = true);
+
+      await _auth.register(
+        _emailController.text.trim(),
+        _passwordController.text.trim(),
+      );
+
+      setState(() => _isLoading = false);
+    }
+  }
+  void _login() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() => _isLoading = true);
+
+      await _auth.login(
+        _emailController.text.trim(),
+        _passwordController.text.trim(),
+      );
+
+      setState(() => _isLoading = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(onPressed: () async{
-              await _auth.anonymousLogin();
-            }, child:Text('anonymous signin')),
-               ElevatedButton(onPressed: () async{
-              await _auth.register(email, 'password');
-            }, child:Text('register')),
-            ElevatedButton(onPressed: () async{
-              await _auth.login(email, 'password');
-            }, child:Text('login')),
-          ],
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 50),
+
+               Text(
+              isNewUser ?  "Create Account" : "Welcome Back!😁",
+                style:const TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueAccent,
+                ),
+              ),
+              const SizedBox(height: 10),
+
+               Text(
+               isNewUser ? "Sign up to get started" : "Sign in to continue",
+                style:const TextStyle(
+                  fontSize: 16,
+                  color: Colors.grey,
+                ),
+              ),
+              const SizedBox(height: 40),
+
+              // Form
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    // Name Field
+                   isNewUser ? _buildTextField(
+                      controller: _nameController,
+                      label: "Full Name",
+                      icon: Icons.person,
+                      validator: (value) =>
+                          value!.isEmpty ? "Enter your name" : null,
+                    ) : SizedBox.shrink() ,
+                    const SizedBox(height: 20),
+
+                    // Email Field
+                    _buildTextField(
+                      controller: _emailController,
+                      label: "Email",
+                      icon: Icons.email,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) =>
+                          value!.isEmpty ? "Enter a valid email" : null,
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Password Field
+                    _buildTextField(
+                      controller: _passwordController,
+                      label: "Password",
+                      icon: Icons.lock,
+                      obscureText: true,
+                      validator: (value) =>
+                          value!.length < 6 ? "Password must be 6+ chars" : null,
+                    ),
+                    const SizedBox(height: 30),
+
+                    // Register Button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: isNewUser ? _register : _login,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          elevation: 5,
+                          shadowColor: Colors.blueAccent.withOpacity(0.3),
+                        ),
+                        child: _isLoading
+                            ? const CircularProgressIndicator(color: Colors.white)
+                            :  Text(
+                               isNewUser ? "Register": "Login",
+                                style:const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                      ),
+                    ),
+                    Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Already have an account?",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                     setState(() {
+                       isNewUser = !isNewUser;
+                     });
+                    },
+                    child: const Text(
+                      "Login",
+                      style: TextStyle(
+                        color: Colors.blueAccent,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    required IconData icon,
+    TextInputType? keyboardType,
+    bool obscureText = false,
+    String? Function(String?)? validator,
+  }) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(icon, color: Colors.blueAccent),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.grey),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.grey),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.blueAccent),
+        ),
+        filled: true,
+        fillColor: Colors.grey.shade100,
+      ),
+      keyboardType: keyboardType,
+      obscureText: obscureText,
+      validator: validator,
     );
   }
 }

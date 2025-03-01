@@ -8,7 +8,10 @@ class Chatscreen extends StatefulWidget {
   final String receiverId;
   final String email;
   const Chatscreen(
-      {super.key, required this.senderid, required this.receiverId, required this.email});
+      {super.key,
+      required this.senderid,
+      required this.receiverId,
+      required this.email});
 
   @override
   State<Chatscreen> createState() => _ChatscreenState();
@@ -41,8 +44,12 @@ class _ChatscreenState extends State<Chatscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          AppBar(title: Text('${widget.email}')),
+      appBar: AppBar(
+          backgroundColor: Colors.blueAccent,
+          title: Text(
+            widget.email,
+            style: const TextStyle(color: Colors.white),
+          )),
       body: Column(
         children: [
           // Chat Messages List
@@ -79,7 +86,16 @@ class _ChatscreenState extends State<Chatscreen> {
                           decoration: BoxDecoration(
                             color:
                                 isMe ? Colors.blueAccent : Colors.grey.shade300,
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: isMe
+                                ? const BorderRadius.only(
+                                    topLeft: Radius.circular(50),
+                                    bottomLeft: Radius.circular(50),
+                                    topRight: Radius.circular(50),
+                                  )
+                                : const BorderRadius.only(
+                                    bottomLeft: Radius.circular(50),
+                                    topRight: Radius.circular(50),
+                                    bottomRight: Radius.circular(50)),
                           ),
                           child: Text(
                             msg.message,
@@ -106,7 +122,8 @@ class _ChatscreenState extends State<Chatscreen> {
                     controller: _controller,
                     decoration: const InputDecoration(
                       hintText: 'Type a message...',
-                      border: OutlineInputBorder(),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(50))),
                     ),
                   ),
                 ),
