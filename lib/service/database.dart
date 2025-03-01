@@ -12,10 +12,11 @@ class Database {
       FirebaseFirestore.instance.collection('chats');
 
   // ✅ Add user with email field
-  Future<void> addUser(String uid, String email,) async {
+  Future<void> addUser(String uid, String email,String name) async {
     return await _user.doc(uid).set({
       'uid': uid,
       'email': email,
+      'name' : name
     });
   }
 
@@ -46,6 +47,7 @@ class Database {
         return Usermodel(
           uid: data['uid'] ?? 'Unknown',
           email: data['email'] ?? 'no email',
+          name: data['name'] ?? 'no name'
         );
       }).toList();
     });

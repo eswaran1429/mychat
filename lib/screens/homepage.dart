@@ -39,7 +39,7 @@ class _HomepageState extends State<Homepage> {
           ),
           IconButton(
             onPressed: () async {
-              await Authservice().signout();
+              await Authservice(name: '').signout();
             },
             icon: const Icon(Icons.logout_outlined, color: Colors.white),
           ),
@@ -86,7 +86,7 @@ class _HomepageState extends State<Homepage> {
                         backgroundColor: Colors.blueAccent,
                         radius: 25,
                         child: Text(
-                          data[index].email[0].toUpperCase(),
+                          data[index].name[0].toUpperCase(),
                           style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -100,7 +100,7 @@ class _HomepageState extends State<Homepage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                            data[index].email,
+                            data[index].name,
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,

@@ -13,10 +13,19 @@ class _AuthenticateState extends State<Authenticate> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final Authservice _auth = Authservice();
+  
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
   bool isNewUser = true;
+
+  late Authservice _auth;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _auth = Authservice(name: _nameController.text);
+  }
 
   void _register() async {
     if (_formKey.currentState!.validate()) {
