@@ -9,11 +9,11 @@ class Authenticate extends StatefulWidget {
 }
 
 class _AuthenticateState extends State<Authenticate> {
-  
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  
+  bool visibility = false;
+
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
   bool isNewUser = true;
@@ -23,6 +23,8 @@ class _AuthenticateState extends State<Authenticate> {
   @override
   void initState() {
     // TODO: implement initState
+    // naruto@9tails.com
+
     super.initState();
     _auth = Authservice(name: _nameController.text);
   }
@@ -39,6 +41,7 @@ class _AuthenticateState extends State<Authenticate> {
       setState(() => _isLoading = false);
     }
   }
+
   void _login() async {
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
@@ -64,9 +67,9 @@ class _AuthenticateState extends State<Authenticate> {
             children: [
               const SizedBox(height: 50),
 
-               Text(
-              isNewUser ?  "Create Account" : "Welcome Back!😁",
-                style:const TextStyle(
+              Text(
+                isNewUser ? "Create Account" : "Welcome Back!😁",
+                style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                   color: Colors.blueAccent,
@@ -74,9 +77,9 @@ class _AuthenticateState extends State<Authenticate> {
               ),
               const SizedBox(height: 10),
 
-               Text(
-               isNewUser ? "Sign up to get started" : "Sign in to continue",
-                style:const TextStyle(
+              Text(
+                isNewUser ? "Sign up to get started" : "Sign in to continue",
+                style: const TextStyle(
                   fontSize: 16,
                   color: Colors.grey,
                 ),
@@ -89,13 +92,15 @@ class _AuthenticateState extends State<Authenticate> {
                 child: Column(
                   children: [
                     // Name Field
-                   isNewUser ? _buildTextField(
-                      controller: _nameController,
-                      label: "Full Name",
-                      icon: Icons.person,
-                      validator: (value) =>
-                          value!.isEmpty ? "Enter your name" : null,
-                    ) : const SizedBox.shrink() ,
+                    isNewUser
+                        ? _buildTextField(
+                            controller: _nameController,
+                            label: "Full Name",
+                            icon: Icons.person,
+                            validator: (value) =>
+                                value!.isEmpty ? "Enter your name" : null,
+                          )
+                        : const SizedBox.shrink(),
                     const SizedBox(height: 20),
 
                     // Email Field
@@ -114,9 +119,11 @@ class _AuthenticateState extends State<Authenticate> {
                       controller: _passwordController,
                       label: "Password",
                       icon: Icons.lock,
+                      isPassword: true,
                       obscureText: true,
-                      validator: (value) =>
-                          value!.length < 6 ? "Password must be 6+ chars" : null,
+                      validator: (value) => value!.length < 6
+                          ? "Password must be 6+ chars"
+                          : null,
                     ),
                     const SizedBox(height: 30),
 
@@ -135,10 +142,11 @@ class _AuthenticateState extends State<Authenticate> {
                           shadowColor: Colors.blueAccent.withOpacity(0.3),
                         ),
                         child: _isLoading
-                            ? const CircularProgressIndicator(color: Colors.white)
-                            :  Text(
-                               isNewUser ? "Register": "Login",
-                                style:const TextStyle(
+                            ? const CircularProgressIndicator(
+                                color: Colors.white)
+                            : Text(
+                                isNewUser ? "Register" : "Login",
+                                style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
@@ -147,34 +155,32 @@ class _AuthenticateState extends State<Authenticate> {
                       ),
                     ),
                     Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Already have an account?",
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                     setState(() {
-                       isNewUser = !isNewUser;
-                     });
-                    },
-                    child: const Text(
-                      "Login",
-                      style: TextStyle(
-                        color: Colors.blueAccent,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          "Already have an account?",
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            setState(() {
+                              isNewUser = !isNewUser;
+                            });
+                          },
+                          child: const Text(
+                            "Login",
+                            style: TextStyle(
+                              color: Colors.blueAccent,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
                   ],
                 ),
               ),
               const SizedBox(height: 20),
-
-              
             ],
           ),
         ),
@@ -188,6 +194,7 @@ class _AuthenticateState extends State<Authenticate> {
     required IconData icon,
     TextInputType? keyboardType,
     bool obscureText = false,
+    bool isPassword = false,
     String? Function(String?)? validator,
   }) {
     return TextFormField(
@@ -207,11 +214,24 @@ class _AuthenticateState extends State<Authenticate> {
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: Colors.blueAccent),
         ),
+        suffix: isPassword
+            ? GestureDetector(
+                onTap: () {
+                  setState(() {
+                    visibility = !visibility;
+                  });
+                },
+                child: visibility
+                    ? const Icon(
+                        Icons.visibility,
+                      )
+                    : const Icon(Icons.visibility_off))
+            : const SizedBox.shrink(),
         filled: true,
         fillColor: Colors.grey.shade100,
       ),
       keyboardType: keyboardType,
-      obscureText: obscureText,
+      obscureText: isPassword? visibility: obscureText,
       validator: validator,
     );
   }
