@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mychat/model/messagemodel.dart';
 import 'package:mychat/service/database.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class Chatscreen extends StatefulWidget {
   final String senderid;
@@ -11,7 +10,8 @@ class Chatscreen extends StatefulWidget {
       {super.key,
       required this.senderid,
       required this.receiverId,
-      required this.email});
+      required this.email, 
+});
 
   @override
   State<Chatscreen> createState() => _ChatscreenState();
@@ -24,7 +24,7 @@ class _ChatscreenState extends State<Chatscreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _database = Database(uid: widget.senderid);
+    _database = Database(uid: widget.senderid,);
   }
 
   void _sendMessage() async {

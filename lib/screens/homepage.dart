@@ -46,7 +46,7 @@ class _HomepageState extends State<Homepage> {
         ],
       ),
       body: StreamBuilder<List<Usermodel>>(
-        stream: Database(uid: currentuser.uid).allUsers,
+        stream: Database(uid: currentuser.uid,).allUsers,
         builder: (context, snapshot) {
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(
@@ -100,10 +100,11 @@ class _HomepageState extends State<Homepage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              data[index].email,
+                            data[index].email,
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
+                                color: Colors.black
                               ),
                             ),
                             const SizedBox(height: 4),

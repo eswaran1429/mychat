@@ -4,7 +4,7 @@ import 'package:mychat/model/usermodel.dart';
 
 class Database {
   final String uid;
-  Database({required this.uid});
+  Database({required this.uid,});
 
   final CollectionReference _user =
       FirebaseFirestore.instance.collection('users');
@@ -12,10 +12,10 @@ class Database {
       FirebaseFirestore.instance.collection('chats');
 
   // ✅ Add user with email field
-  Future<void> addUser(String uid, String email) async {
+  Future<void> addUser(String uid, String email,) async {
     return await _user.doc(uid).set({
       'uid': uid,
-      'email': email, // ✅ Ensure email is saved
+      'email': email,
     });
   }
 

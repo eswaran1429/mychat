@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mychat/service/authservice.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 
 class Authenticate extends StatefulWidget {
   const Authenticate({super.key});
@@ -10,10 +9,11 @@ class Authenticate extends StatefulWidget {
 }
 
 class _AuthenticateState extends State<Authenticate> {
-  final Authservice _auth = Authservice();
+  
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final Authservice _auth = Authservice();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
   bool isNewUser = true;
@@ -86,7 +86,7 @@ class _AuthenticateState extends State<Authenticate> {
                       icon: Icons.person,
                       validator: (value) =>
                           value!.isEmpty ? "Enter your name" : null,
-                    ) : SizedBox.shrink() ,
+                    ) : const SizedBox.shrink() ,
                     const SizedBox(height: 20),
 
                     // Email Field
