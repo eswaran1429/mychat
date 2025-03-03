@@ -10,7 +10,7 @@ class Authservice extends ChangeNotifier {
   Usermodel? _currentUser;
 
   Usermodel? _userFromFirebase(User? user) {
-    return user != null ? Usermodel(uid: user.uid, email: user.email ?? 'no email',name: name) : null;
+    return user != null ? Usermodel(uid: user.uid, email: user.email ?? 'no email',name: name ??'no name') : null;
   }
 
   Usermodel? get currentUser => _currentUser;

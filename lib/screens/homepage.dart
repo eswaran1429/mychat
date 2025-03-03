@@ -39,7 +39,7 @@ class _HomepageState extends State<Homepage> {
           ),
           IconButton(
             onPressed: () async {
-              await Authservice(name: '').signout();
+              await Authservice(name: 'no name').signout();
             },
             icon: const Icon(Icons.logout_outlined, color: Colors.white),
           ),
@@ -74,7 +74,7 @@ class _HomepageState extends State<Homepage> {
                     builder: (context) => Chatscreen(
                       senderid: currentuser.uid,
                       receiverId: data[index].uid,
-                      email: data[index].email,
+                      name: data[index].name,
                     ),
                   ));
                 },

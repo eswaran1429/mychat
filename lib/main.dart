@@ -4,9 +4,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:mychat/service/authservice.dart';
 import 'package:mychat/wrapper.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
  if (kIsWeb) {
     await Firebase.initializeApp(options: const FirebaseOptions(
     apiKey: "AIzaSyCMMsv614G-v90pbvxWNLcb1yjD6FJEjD0",
@@ -19,7 +21,7 @@ void main() async {
  } else {
    await Firebase.initializeApp();
  }
-
+final fcmToken = FirebaseMessaging.instance.getToken();
 
   runApp(
     MultiProvider(

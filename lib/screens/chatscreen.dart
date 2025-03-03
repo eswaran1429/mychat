@@ -5,12 +5,12 @@ import 'package:mychat/service/database.dart';
 class Chatscreen extends StatefulWidget {
   final String senderid;
   final String receiverId;
-  final String email;
+  final String name;
   const Chatscreen(
       {super.key,
       required this.senderid,
       required this.receiverId,
-      required this.email, 
+      required this.name, 
 });
 
   @override
@@ -47,7 +47,7 @@ class _ChatscreenState extends State<Chatscreen> {
       appBar: AppBar(
           backgroundColor: Colors.blueAccent,
           title: Text(
-            widget.email,
+            widget.name,
             style: const TextStyle(color: Colors.white),
           )),
       body: Column(

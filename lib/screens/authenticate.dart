@@ -24,12 +24,14 @@ class _AuthenticateState extends State<Authenticate> {
   void initState() {
     // TODO: implement initState
     // naruto@9tails.com
+    // onepiece1234
 
     super.initState();
     _auth = Authservice(name: _nameController.text);
   }
 
-  void _register() async {
+  void _register(String name) async {
+    _auth = Authservice(name: name);
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
 
@@ -132,7 +134,9 @@ class _AuthenticateState extends State<Authenticate> {
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: isNewUser ? _register : _login,
+                      onPressed:(){
+                         isNewUser ? _register(_nameController.text) : _login;
+                      },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blueAccent,
                           shape: RoundedRectangleBorder(
@@ -231,7 +235,7 @@ class _AuthenticateState extends State<Authenticate> {
         fillColor: Colors.grey.shade100,
       ),
       keyboardType: keyboardType,
-      obscureText: isPassword? visibility: obscureText,
+      obscureText: isPassword ? visibility: obscureText,
       validator: validator,
     );
   }
