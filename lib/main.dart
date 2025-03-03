@@ -21,27 +21,39 @@ void main() async {
  } else {
    await Firebase.initializeApp();
  }
-final fcmToken = FirebaseMessaging.instance.getToken();
+ final fcmToken = await FirebaseMessaging.instance.getToken();
+    print(' Tokken ${fcmToken.toString()}');
 
+FirebaseMessaging messaging = FirebaseMessaging.instance;
+NotificationSettings settings = await messaging.requestPermission(
+  alert: true,
+  announcement: false,
+  badge: true,
+  carPlay: false,
+  criticalAlert: false,
+  provisional: false,
+  sound: true,
+);
+print('User granted permission: ${settings.authorizationStatus}');
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (context) => Authservice(name: ''),
-          child: const MyApp(),
+          child: MyApp(),
         ),
        
       ],
-      child: const MyApp(),
+      child: MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   MyApp({super.key});
 
   // This widget is the root of your application.
-  @override
+@override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
