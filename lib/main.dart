@@ -4,11 +4,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:mychat/service/authservice.dart';
 import 'package:mychat/wrapper.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:mychat/service/notification.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
  if (kIsWeb) {
     await Firebase.initializeApp(options: const FirebaseOptions(
     apiKey: "AIzaSyCMMsv614G-v90pbvxWNLcb1yjD6FJEjD0",
@@ -21,20 +20,8 @@ void main() async {
  } else {
    await Firebase.initializeApp();
  }
- final fcmToken = await FirebaseMessaging.instance.getToken();
-    print(' Tokken ${fcmToken.toString()}');
 
-FirebaseMessaging messaging = FirebaseMessaging.instance;
-NotificationSettings settings = await messaging.requestPermission(
-  alert: true,
-  announcement: false,
-  badge: true,
-  carPlay: false,
-  criticalAlert: false,
-  provisional: false,
-  sound: true,
-);
-print('User granted permission: ${settings.authorizationStatus}');
+ await NotificationService.instance.initialize();
   runApp(
     MultiProvider(
       providers: [

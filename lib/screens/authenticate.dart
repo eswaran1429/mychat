@@ -161,9 +161,9 @@ class _AuthenticateState extends State<Authenticate> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          "Already have an account?",
-                          style: TextStyle(color: Colors.grey),
+                         Text(
+                           isNewUser ?"Already have an account?" :"Create new account!" ,
+                          style: const TextStyle(color: Colors.grey),
                         ),
                         TextButton(
                           onPressed: () {
@@ -171,9 +171,9 @@ class _AuthenticateState extends State<Authenticate> {
                               isNewUser = !isNewUser;
                             });
                           },
-                          child: const Text(
-                            "Login",
-                            style: TextStyle(
+                          child:  Text(
+                            isNewUser ?"Login" :"Register",
+                            style: const TextStyle(
                               color: Colors.blueAccent,
                               fontWeight: FontWeight.bold,
                             ),

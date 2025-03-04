@@ -39,6 +39,7 @@ dev_dependencies:
   firebase_core: ^3.9.0
   firebase_messaging: ^15.1.6
   flutter_lints: ^4.0.0
+  flutter_local_notifications: ^17.2.1+2
   flutter_test:
     sdk: flutter
   provider: ^6.1.2
