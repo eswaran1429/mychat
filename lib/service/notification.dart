@@ -63,6 +63,8 @@ class NotificationService {
   }
 
   Future<void> openHandler(RemoteMessage message) async {
-    if (message.data['type'] == 'chat') {}
+    if (message.data['type'] == 'chat') {
+      //have to work on specific page and message from the chat
+    }
   }
 }
