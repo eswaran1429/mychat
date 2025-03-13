@@ -45,88 +45,114 @@ class _HomepageState extends State<Homepage> {
           ),
         ],
       ),
-      body: StreamBuilder<List<Usermodel>>(
-        stream: Database(uid: currentuser.uid,).allUsers,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(
-              child: Text(
-                'No Users',
-                style: TextStyle(fontSize: 20),
-              ),
-            );
-          }
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          final user = snapshot.data!;
-          final data = user.where((data) => data.uid != currentuser.uid).toList();
-
-          return ListView.builder(
-            itemCount: data.length,
-            itemBuilder: (context, index) {
-              return InkWell(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => Chatscreen(
-                      senderid: currentuser.uid,
-                      receiverId: data[index].uid,
-                      name: data[index].name,
-                    ),
-                  ));
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        backgroundColor: Colors.blueAccent,
-                        radius: 25,
-                        child: Text(
-                          data[index].name[0].toUpperCase(),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                          ),
+      body: Stack(
+        children: [
+          Image.asset('assets/background1.jpg', 
+          fit: BoxFit.cover,
+          height: double.infinity,
+          width: double.infinity,),
+          StreamBuilder<List<Usermodel>>(
+            stream: Database(uid: currentuser.uid,).allUsers,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(
+                  child: Text(
+                    'No Users',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                );
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+          
+              final user = snapshot.data!;
+              final data = user.where((data) => data.uid != currentuser.uid).toList();
+          
+              return ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => Chatscreen(
+                          senderid: currentuser.uid,
+                          receiverId: data[index].uid,
+                          name: data[index].name,
                         ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                            data[index].name,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black
+                      ));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                      child: Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              print('tapped');
+                              // showAboutDialog(context: context);
+                              showDialog(context: context, builder: (context){
+                                return Center(
+                                  child: Container(
+                                    height: 300,
+                                    width: 300,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white
+                                    ),
+                                    child: const Text('hilloeie'),
+                                  ),
+                                );
+                              });
+                            },
+                            child: CircleAvatar(
+                              backgroundColor: Colors.blueAccent,
+                              radius: 25,
+                              child: Text(
+                                data[index].name[0].toUpperCase(),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
-                            const SizedBox(height: 4),
-                            const Text(
-                              'Tap to chat',
-                              style: TextStyle(color: Colors.grey),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                data[index].name,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                const Text(
+                                  'Tap to chat',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                          const Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.grey,
+                            size: 16,
+                          ),
+                        ],
                       ),
-                      const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.grey,
-                        size: 16,
-                      ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               );
             },
-          );
-        },
+          ),
+        ],
       ),
     );
   }

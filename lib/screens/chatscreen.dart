@@ -50,90 +50,97 @@ class _ChatscreenState extends State<Chatscreen> {
             widget.name,
             style: const TextStyle(color: Colors.white),
           )),
-      body: Column(
+      body: Stack(
         children: [
-          // Chat Messages List
-          Expanded(
-            child: StreamBuilder<List<Messagemodel>>(
-                stream: _database
-                    .getMessages(getChatId(widget.senderid, widget.receiverId)),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Center(
-                      child: Text('No messages'),
-                    );
-                  }
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  final messages = snapshot.data!;
-
-                  return ListView.builder(
-                    padding: const EdgeInsets.all(10),
-                    itemCount: messages.length,
-                    itemBuilder: (context, index) {
-                      final msg = messages[index];
-                      final isMe = msg.senderId == widget.senderid;
-
-                      return Align(
-                        alignment:
-                            isMe ? Alignment.centerRight : Alignment.centerLeft,
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 5),
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color:
-                                isMe ? Colors.blueAccent : Colors.grey.shade300,
-                            borderRadius: isMe
-                                ? const BorderRadius.only(
-                                    topLeft: Radius.circular(50),
-                                    bottomLeft: Radius.circular(50),
-                                    topRight: Radius.circular(50),
-                                  )
-                                : const BorderRadius.only(
-                                    bottomLeft: Radius.circular(50),
-                                    topRight: Radius.circular(50),
-                                    bottomRight: Radius.circular(50)),
-                          ),
-                          child: Text(
-                            msg.message,
-                            style: TextStyle(
-                                color: isMe ? Colors.white : Colors.black),
-                          ),
-                        ),
+          Image.asset('assets/background.jpg', 
+          fit: BoxFit.cover,
+          height: double.infinity,
+          width: double.infinity,),
+          Column(
+            children: [
+              Expanded(
+                child: StreamBuilder<List<Messagemodel>>(
+                    stream: _database
+                        .getMessages(getChatId(widget.senderid, widget.receiverId)),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Center(
+                          child: Text('No messages'),
+                        );
+                      }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      final messages = snapshot.data!;
+          
+                      return ListView.builder(
+                        padding: const EdgeInsets.all(10),
+                        itemCount: messages.length,
+                        itemBuilder: (context, index) {
+                          final msg = messages[index];
+                          final isMe = msg.senderId == widget.senderid;
+          
+                          return Align(
+                            alignment:
+                                isMe ? Alignment.centerRight : Alignment.centerLeft,
+                            child: Container(
+                              margin: const EdgeInsets.symmetric(vertical: 5),
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color:
+                                    isMe ? Colors.blueAccent : Colors.grey.shade300,
+                                borderRadius: isMe
+                                    ? const BorderRadius.only(
+                                        topLeft: Radius.circular(50),
+                                        bottomLeft: Radius.circular(50),
+                                        topRight: Radius.circular(50),
+                                      )
+                                    : const BorderRadius.only(
+                                        bottomLeft: Radius.circular(50),
+                                        topRight: Radius.circular(50),
+                                        bottomRight: Radius.circular(50)),
+                              ),
+                              child: Text(
+                                msg.message,
+                                style: TextStyle(
+                                    color: isMe ? Colors.white : Colors.black),
+                              ),
+                            ),
+                          );
+                        },
                       );
-                    },
-                  );
-                }),
-          ),
-
-          // Input Field
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              border: Border(top: BorderSide(color: Colors.grey.shade300)),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextFormField(
-                    controller: _controller,
-                    decoration: const InputDecoration(
-                      hintText: 'Type a message...',
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(50))),
+                    }),
+              ),
+          
+              // Input Field
+              Container(
+                padding: const EdgeInsets.all(10),
+               
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        controller: _controller,
+                        decoration: const InputDecoration(
+                          hintText: 'Type a message...',
+                          fillColor: Colors.white,
+                          filled: true,
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(50))),
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(width: 10),
+                    IconButton(
+                      icon: const Icon(Icons.send, color: Colors.blueAccent),
+                      onPressed: _sendMessage,
+                    ),
+                  ],
                 ),
-                const SizedBox(width: 10),
-                IconButton(
-                  icon: const Icon(Icons.send, color: Colors.blueAccent),
-                  onPressed: _sendMessage,
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ],
       ),
