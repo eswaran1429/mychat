@@ -130,7 +130,7 @@ class _ChatscreenState extends State<Chatscreen> {
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(50))),
                         ),
-                      ), 
+                      ),
                     ),
                     const SizedBox(width: 10),
                     IconButton(

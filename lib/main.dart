@@ -1,5 +1,9 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+// ignore: duplicate_ignore
+// ignore: depend_on_referenced_packages
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mychat/service/authservice.dart';
 import 'package:mychat/wrapper.dart';
