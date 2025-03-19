@@ -110,7 +110,7 @@ class _HomepageState extends State<Homepage> {
                                         decoration: const BoxDecoration(
                                             color: Colors.white),
                                         child: Image.network(
-                                          'https://res.cloudinary.com/dfc5mnnqi/image/upload/v1741673505/samples/cup-on-a-table.jpg',
+                                          'https://res.cloudinary.com/dfc5mnnqi/image/upload/v1742388695/profile_b0fdgb.jpg',
                                           fit: BoxFit.contain,
                                         ),
                                       ),
