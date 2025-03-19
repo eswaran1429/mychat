@@ -100,7 +100,7 @@ class _HomepageState extends State<Homepage> {
                                     decoration: const BoxDecoration(
                                       color: Colors.white
                                     ),
-                                    child: const Text('hilloeie'),
+                                    child: Text(data[index].name),
                                   ),
                                 );
                               });
