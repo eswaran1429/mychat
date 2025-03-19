@@ -5,6 +5,10 @@ import 'package:mychat/service/authservice.dart';
 import 'package:mychat/service/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:cloudinary_flutter/cloudinary_context.dart';
+import 'package:cloudinary_flutter/image/cld_image.dart';
+import 'package:cloudinary_url_gen/cloudinary.dart';
+
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
 
@@ -47,12 +51,16 @@ class _HomepageState extends State<Homepage> {
       ),
       body: Stack(
         children: [
-          Image.asset('assets/background1.jpg', 
-          fit: BoxFit.cover,
-          height: double.infinity,
-          width: double.infinity,),
+          Image.asset(
+            'assets/background1.jpg',
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
+          ),
           StreamBuilder<List<Usermodel>>(
-            stream: Database(uid: currentuser.uid,).allUsers,
+            stream: Database(
+              uid: currentuser.uid,
+            ).allUsers,
             builder: (context, snapshot) {
               if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return const Center(
@@ -67,10 +75,11 @@ class _HomepageState extends State<Homepage> {
                   child: CircularProgressIndicator(),
                 );
               }
-          
+
               final user = snapshot.data!;
-              final data = user.where((data) => data.uid != currentuser.uid).toList();
-          
+              final data =
+                  user.where((data) => data.uid != currentuser.uid).toList();
+
               return ListView.builder(
                 itemCount: data.length,
                 itemBuilder: (context, index) {
@@ -85,23 +94,28 @@ class _HomepageState extends State<Homepage> {
                       ));
                     },
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 16.0),
                       child: Row(
                         children: [
                           GestureDetector(
                             onTap: () {
-                              showDialog(context: context, builder: (context){
-                                return Center(
-                                  child: Container(
-                                    height: 300,
-                                    width: 300,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white
-                                    ),
-                                    child: Image.asset('assets/profile.jpg', fit: BoxFit.cover,),
-                                  ),
-                                );
-                              });
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return Center(
+                                      child: Container(
+                                        height: 300,
+                                        width: 300,
+                                        decoration: const BoxDecoration(
+                                            color: Colors.white),
+                                        child: Image.network(
+                                          'https://res.cloudinary.com/dfc5mnnqi/image/upload/v1741673505/samples/cup-on-a-table.jpg',
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    );
+                                  });
                             },
                             child: CircleAvatar(
                               backgroundColor: Colors.blueAccent,
@@ -122,12 +136,11 @@ class _HomepageState extends State<Homepage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                data[index].name,
+                                  data[index].name,
                                   style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black
-                                  ),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black),
                                 ),
                                 const SizedBox(height: 4),
                                 const Text(

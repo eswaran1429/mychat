@@ -44,6 +44,8 @@ dev_dependencies:
     sdk: flutter
   provider: ^6.1.2
   toggle_switch: ^2.3.0
+  cloudinary_flutter: ^1.0.0
+  cloudinary_url_gen: ^1.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

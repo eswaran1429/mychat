@@ -1,16 +1,16 @@
-// ignore_for_file: depend_on_referenced_packages
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-// ignore: duplicate_ignore
-// ignore: depend_on_referenced_packages
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mychat/service/authservice.dart';
 import 'package:mychat/wrapper.dart';
 import 'package:provider/provider.dart';
 import 'package:mychat/service/notification.dart';
+import 'package:cloudinary_flutter/cloudinary_context.dart';
+import 'package:cloudinary_flutter/image/cld_image.dart';
+import 'package:cloudinary_url_gen/cloudinary.dart';
 
 Future<void> main() async {
+  CloudinaryContext.cloudinary = Cloudinary.fromCloudName(cloudName: 'dfc5mnnqi');
   WidgetsFlutterBinding.ensureInitialized();
  if (kIsWeb) {
     await Firebase.initializeApp(options: const FirebaseOptions(
