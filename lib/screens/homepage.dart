@@ -90,8 +90,6 @@ class _HomepageState extends State<Homepage> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              print('tapped');
-                              // showAboutDialog(context: context);
                               showDialog(context: context, builder: (context){
                                 return Center(
                                   child: Container(
@@ -100,7 +98,7 @@ class _HomepageState extends State<Homepage> {
                                     decoration: const BoxDecoration(
                                       color: Colors.white
                                     ),
-                                    child: Text(data[index].name),
+                                    child: Image.asset('assets/profile.jpg', fit: BoxFit.cover,),
                                   ),
                                 );
                               });
