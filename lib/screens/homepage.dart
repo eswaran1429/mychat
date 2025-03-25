@@ -5,9 +5,6 @@ import 'package:mychat/service/authservice.dart';
 import 'package:mychat/service/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'package:cloudinary_flutter/cloudinary_context.dart';
-import 'package:cloudinary_flutter/image/cld_image.dart';
-import 'package:cloudinary_url_gen/cloudinary.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});

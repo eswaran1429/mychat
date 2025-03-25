@@ -6,7 +6,6 @@ import 'package:mychat/wrapper.dart';
 import 'package:provider/provider.dart';
 import 'package:mychat/service/notification.dart';
 import 'package:cloudinary_flutter/cloudinary_context.dart';
-import 'package:cloudinary_flutter/image/cld_image.dart';
 import 'package:cloudinary_url_gen/cloudinary.dart';
 
 Future<void> main() async {
