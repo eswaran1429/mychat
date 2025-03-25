@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mychat/model/usermodel.dart';
 import 'package:mychat/screens/chatscreen.dart';
+import 'package:mychat/screens/profilepage.dart';
 import 'package:mychat/service/authservice.dart';
 import 'package:mychat/service/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -18,6 +18,39 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     final currentuser = FirebaseAuth.instance.currentUser;
     return Scaffold(
+      drawer: Drawer(
+        child: Column(
+          children: [
+            Container(
+              height: 250,
+              width: double.infinity,
+              color: Colors.blueAccent,
+              child: Center(
+                  child: Container(
+                height: 180,
+                width: 180,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(100)),
+              )),
+            ),
+            Card(
+              elevation: 2,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ProfilePage()));
+                },
+                child: const ListTile(
+                  title: Text('Settings'),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
         title: const Text(
@@ -29,6 +62,13 @@ class _HomepageState extends State<Homepage> {
           ),
         ),
         actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const ProfilePage()));
+            },
+            child: const Icon(Icons.settings),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Center(

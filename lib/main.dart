@@ -9,48 +9,46 @@ import 'package:cloudinary_flutter/cloudinary_context.dart';
 import 'package:cloudinary_url_gen/cloudinary.dart';
 
 Future<void> main() async {
-  CloudinaryContext.cloudinary = Cloudinary.fromCloudName(cloudName: 'dfc5mnnqi');
+  // ignore: deprecated_member_use
+  CloudinaryContext.cloudinary =
+      Cloudinary.fromCloudName(cloudName: 'dfc5mnnqi');
   WidgetsFlutterBinding.ensureInitialized();
- if (kIsWeb) {
-    await Firebase.initializeApp(options: const FirebaseOptions(
-    apiKey: "AIzaSyCMMsv614G-v90pbvxWNLcb1yjD6FJEjD0",
-  authDomain: "chat-3681b.firebaseapp.com",
-  projectId: "chat-3681b",
-  storageBucket: "chat-3681b.firebasestorage.app",
-  messagingSenderId: "538254446573",
-  appId: "1:538254446573:web:647f30f64e3ad989c1a1e4",
-  measurementId: "G-0TPJL2S5S1"));
- } else {
-   await Firebase.initializeApp();
- }
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+        options: const FirebaseOptions(
+            apiKey: "AIzaSyCMMsv614G-v90pbvxWNLcb1yjD6FJEjD0",
+            authDomain: "chat-3681b.firebaseapp.com",
+            projectId: "chat-3681b",
+            storageBucket: "chat-3681b.firebasestorage.app",
+            messagingSenderId: "538254446573",
+            appId: "1:538254446573:web:647f30f64e3ad989c1a1e4",
+            measurementId: "G-0TPJL2S5S1"));
+  } else {
+    await Firebase.initializeApp();
+  }
 
- await NotificationService.instance.initialize();
+  await NotificationService.instance.initialize();
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (context) => Authservice(name: ''),
-          child: MyApp(),
+          child: const MyApp(),
         ),
-       
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-   MyApp({super.key});
+  const MyApp({super.key});
 
   // This widget is the root of your application.
-@override
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
-      home: const Wrapper(),
+    return const MaterialApp(
+      home: Wrapper(),
     );
   }
 }

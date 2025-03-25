@@ -24,6 +24,7 @@ class _AuthenticateState extends State<Authenticate> {
   void initState() {
     // TODO: implement initState
     // naruto@9tails.com
+    // luffy@zmeat.com
     // onepiece1234
 
     super.initState();
@@ -135,7 +136,7 @@ class _AuthenticateState extends State<Authenticate> {
                       height: 50,
                       child: ElevatedButton(
                       onPressed:(){
-                         isNewUser ? _register(_nameController.text) : _login;
+                         isNewUser ? _register(_nameController.text) : _login();
                       },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.blueAccent,
