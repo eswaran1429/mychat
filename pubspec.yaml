@@ -45,6 +45,7 @@ dev_dependencies:
   flutter_local_notifications: ^17.2.1+2
   flutter_test:
     sdk: flutter
+  google_sign_in: ^6.1.5
   http: ^1.3.0
   image_picker: ^1.0.6
   permission_handler: ^11.4.0
