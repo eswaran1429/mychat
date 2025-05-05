@@ -16,8 +16,10 @@ class Wrapper extends StatelessWidget {
           if (snap.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();
           } else if (snap.hasData) {
+            print('hasdata');
             return const Homepage();
           } else {
+               print('nodata');
             return const Authenticate();
           }
         });

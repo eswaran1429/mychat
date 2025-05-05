@@ -53,8 +53,10 @@ class _AuthenticateState extends State<Authenticate> {
         _emailController.text.trim(),
         _passwordController.text.trim(),
       );
+      print('object');
 
       setState(() => _isLoading = false);
+       print('object1');
     }
   }
 

@@ -133,9 +133,15 @@ class _ChatscreenState extends State<Chatscreen> {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    IconButton(
-                      icon: const Icon(Icons.send, color: Colors.blueAccent),
-                      onPressed: _sendMessage,
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(50)
+                      ),
+                      child: IconButton(
+                        icon: const Icon(Icons.send_sharp, color: Colors.black),
+                        onPressed: _sendMessage,
+                      ),
                     ),
                   ],
                 ),
