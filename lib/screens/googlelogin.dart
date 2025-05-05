@@ -43,8 +43,8 @@ class GoogleLogin extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: ElevatedButton.icon(
-          icon: Icon(Icons.login),
-          label: Text("Login with Google"),
+          icon: const Icon(Icons.login),
+          label: const Text("Login with Google"),
           onPressed: () => signInWithGoogle(context),
         ),
       ),
