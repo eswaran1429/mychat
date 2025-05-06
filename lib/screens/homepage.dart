@@ -80,7 +80,7 @@ class _HomepageState extends State<Homepage> {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Center(
               child: Text(
-                '${currentuser!.email}',
+                '${currentuser.email}',
                 style: const TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),
@@ -143,47 +143,68 @@ class _HomepageState extends State<Homepage> {
                       child: Row(
                         children: [
                           GestureDetector(
-                            onTap: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return Center(
-                                      child: Container(
-                                          height: 300,
-                                          width: 300,
-                                          decoration: const BoxDecoration(
-                                              color: Colors.white),
-                                          child: FutureBuilder<String?>(
-                                              future: getProfile(userData[index].uid),
-                                              builder: (context, profileSnapshot) {
-                                                if (profileSnapshot.connectionState ==
-                                                    ConnectionState.waiting) {
-                                                  return const CircularProgressIndicator(
-                                                    value: 10,
+                              onTap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Center(
+                                        child: Container(
+                                            height: 300,
+                                            width: 300,
+                                            decoration: const BoxDecoration(
+                                                color: Colors.white),
+                                            child: FutureBuilder<String?>(
+                                                future: getProfile(
+                                                    userData[index].uid),
+                                                builder:
+                                                    (context, profileSnapshot) {
+                                                  if (profileSnapshot
+                                                          .connectionState ==
+                                                      ConnectionState.waiting) {
+                                                    return const CircularProgressIndicator(
+                                                      value: 10,
+                                                    );
+                                                  }
+                                                  final url = profileSnapshot
+                                                          .data ??
+                                                      'https://res.cloudinary.com/dfc5mnnqi/image/upload/v1742883154/mn7egacupkxgelkiycfa.png';
+                                                  return Image.network(
+                                                    url,
+                                                    fit: BoxFit.contain,
                                                   );
-                                                }
-                                                final url = profileSnapshot.data ?? 'https://res.cloudinary.com/dfc5mnnqi/image/upload/v1742883154/mn7egacupkxgelkiycfa.png';
-                                                return Image.network(
-                                                  url,
-                                          fit: BoxFit.contain,
-                                        );
-                                              })),
-                                    );
-                                  });
-                            },
-                            child: CircleAvatar(
-                              backgroundColor: Colors.blueAccent,
-                              radius: 25,
-                              child: Text(
-                                userData[index].name[0].toUpperCase(),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ),
-                          ),
+                                                })),
+                                      );
+                                    });
+                              },
+                              child: FutureBuilder(
+                                  future: getProfile(userData[index].uid),
+                                  builder: (context, snap) {
+                                    if (snap.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return const CircleAvatar(
+                                        radius: 25,
+                                        backgroundColor: Colors.blueAccent,
+                                        child: CircularProgressIndicator(
+                                            color: Colors.white,
+                                            strokeWidth: 2),
+                                      );
+                                    }
+
+                                    final url = snap.data;
+                                    if (url != null && url.isNotEmpty) {
+                                      return CircleAvatar(
+                                        radius: 25,
+                                        backgroundImage:  NetworkImage(url),
+                                        backgroundColor: Colors.transparent,
+                                      );
+                                    }else{
+                                      return  const CircleAvatar(
+                                        radius: 25,
+                                        backgroundColor: Colors.blue,
+                                        child: Icon(Icons.person , size: 50,color: Colors.black,),
+                                      );
+                                    }
+                                  })),
                           const SizedBox(width: 16),
                           Expanded(
                             child: Column(
