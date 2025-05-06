@@ -158,11 +158,11 @@ class _HomepageState extends State<Homepage> {
                                               builder: (context, profileSnapshot) {
                                                 if (profileSnapshot.connectionState ==
                                                     ConnectionState.waiting) {
-                                                  return CircularProgressIndicator();
+                                                  return const CircularProgressIndicator(
+                                                    value: 10,
+                                                  );
                                                 }
                                                 final url = profileSnapshot.data ?? 'https://res.cloudinary.com/dfc5mnnqi/image/upload/v1742883154/mn7egacupkxgelkiycfa.png';
-                                               print('profile ${profileSnapshot.data}');
-                                               print('profile ${userData[index].uid}');
                                                 return Image.network(
                                                   url,
                                           fit: BoxFit.contain,

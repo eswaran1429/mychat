@@ -9,7 +9,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -20,12 +19,15 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   File? image;
   final ImagePicker _imagePicker = ImagePicker(); // Removed `?`
-  String imageUrl ='';
+  String imageUrl = '';
   String cloudName = 'dfc5mnnqi';
   late Database _database;
-  
- 
 
+  String? profile;
+  Future<String?> getProfile(String userId) async {
+    profile = await _database.getProfile(userId);
+    return profile;
+  }
 
   Future<void> pickImage() async {
     // Request permission based on Android version
@@ -39,38 +41,33 @@ class _ProfilePageState extends State<ProfilePage> {
           cloudUpload(image!);
         });
       }
-    } else {
-      print("Permission denied");
-    }
+    } else {}
   }
 
-  Future<void> cloudUpload(File image) async{
-    final uri = Uri.parse('https://api.cloudinary.com/v1_1/$cloudName/image/upload');
+  Future<void> cloudUpload(File image) async {
+    final uri =
+        Uri.parse('https://api.cloudinary.com/v1_1/$cloudName/image/upload');
 
     final request = http.MultipartRequest('POST', uri)
-    ..fields['upload_preset']= 'user_profiles'
-    ..files.add(await http.MultipartFile.fromPath('file', image.path)); 
+      ..fields['upload_preset'] = 'user_profiles'
+      ..files.add(await http.MultipartFile.fromPath('file', image.path));
 
     final response = await request.send();
 
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       final res = await http.Response.fromStream(response);
       final data = json.decode(res.body);
 
       setState(() {
         imageUrl = data['secure_url'];
         _database.addProfile(data['secure_url']);
-        print('uploaded $imageUrl');
       });
-    }else{
-      print('Upload failed');
-    }
+    } else {}
   }
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<Authservice>(context);
-    print('user ${user.currentUser!.uid}');
     _database = Database(uid: user.currentUser!.uid);
     return Scaffold(
       appBar: AppBar(title: const Text("Profile Page")),
@@ -78,9 +75,23 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            image != null
-                ? Image.file(image!, height: 150)
-                : const Text('No Image Selected'),
+            FutureBuilder<String?>(
+              future: getProfile(user.currentUser!.uid),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return CircularProgressIndicator(color: Colors.black,);
+                }
+                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                  return Image.network(
+                    snapshot.data!,
+                    fit: BoxFit.contain,
+                  );
+                } else {
+                  return const Text('Add your profile');
+                  
+                }
+              },
+            ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: pickImage,
