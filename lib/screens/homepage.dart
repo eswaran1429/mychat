@@ -17,6 +17,13 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     final currentuser = FirebaseAuth.instance.currentUser;
+    Database _database = Database(uid: currentuser!.uid);
+    String? profile;
+    Future<String?> getProfile(String userId) async {
+      profile = await _database.getProfile(userId);
+      return profile;
+    }
+
     return Scaffold(
       drawer: Drawer(
         child: Column(
@@ -114,19 +121,19 @@ class _HomepageState extends State<Homepage> {
               }
 
               final user = snapshot.data!;
-              final data =
+              final userData =
                   user.where((data) => data.uid != currentuser.uid).toList();
 
               return ListView.builder(
-                itemCount: data.length,
+                itemCount: userData.length,
                 itemBuilder: (context, index) {
                   return InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => Chatscreen(
                           senderid: currentuser.uid,
-                          receiverId: data[index].uid,
-                          name: data[index].name,
+                          receiverId: userData[index].uid,
+                          name: userData[index].name,
                         ),
                       ));
                     },
@@ -142,15 +149,25 @@ class _HomepageState extends State<Homepage> {
                                   builder: (context) {
                                     return Center(
                                       child: Container(
-                                        height: 300,
-                                        width: 300,
-                                        decoration: const BoxDecoration(
-                                            color: Colors.white),
-                                        child: Image.network(
-                                          'https://res.cloudinary.com/dfc5mnnqi/image/upload/v1742883154/mn7egacupkxgelkiycfa.png',
+                                          height: 300,
+                                          width: 300,
+                                          decoration: const BoxDecoration(
+                                              color: Colors.white),
+                                          child: FutureBuilder<String?>(
+                                              future: getProfile(userData[index].uid),
+                                              builder: (context, profileSnapshot) {
+                                                if (profileSnapshot.connectionState ==
+                                                    ConnectionState.waiting) {
+                                                  return CircularProgressIndicator();
+                                                }
+                                                final url = profileSnapshot.data ?? 'https://res.cloudinary.com/dfc5mnnqi/image/upload/v1742883154/mn7egacupkxgelkiycfa.png';
+                                               print('profile ${profileSnapshot.data}');
+                                               print('profile ${userData[index].uid}');
+                                                return Image.network(
+                                                  url,
                                           fit: BoxFit.contain,
-                                        ),
-                                      ),
+                                        );
+                                              })),
                                     );
                                   });
                             },
@@ -158,7 +175,7 @@ class _HomepageState extends State<Homepage> {
                               backgroundColor: Colors.blueAccent,
                               radius: 25,
                               child: Text(
-                                data[index].name[0].toUpperCase(),
+                                userData[index].name[0].toUpperCase(),
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
@@ -173,7 +190,7 @@ class _HomepageState extends State<Homepage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  data[index].name,
+                                  userData[index].name,
                                   style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,

@@ -10,6 +10,7 @@ class Database {
       FirebaseFirestore.instance.collection('users');
   final CollectionReference _chat =
       FirebaseFirestore.instance.collection('chats');
+  final CollectionReference _profile = FirebaseFirestore.instance.collection('profiles');
 
   // ✅ Add user with email field
   Future<void> addUser(String uid, String email,String name) async {
@@ -18,6 +19,27 @@ class Database {
       'email': email,
       'name' : name
     });
+  }
+
+  Future<void> addProfile(String profile) async{
+    if (uid.isEmpty) {
+  throw Exception("UID cannot be empty");
+}
+
+    return await _profile.doc(uid).set({
+      'profile' : profile
+    });
+  }
+
+  Future<String?> getProfile(String userId) async{
+    DocumentSnapshot snap = await _profile.doc(userId).get();
+
+    if(snap.exists && snap.data() != null){
+      final data = snap.data() as Map<String, dynamic>;
+      return data['profile'] as String?;
+    }else{
+      return null;
+    }
   }
 
   // ✅ Ensure consistent chat ID

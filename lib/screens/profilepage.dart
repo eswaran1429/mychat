@@ -2,9 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mychat/service/authservice.dart';
+import 'package:mychat/service/database.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -17,6 +22,10 @@ class _ProfilePageState extends State<ProfilePage> {
   final ImagePicker _imagePicker = ImagePicker(); // Removed `?`
   String imageUrl ='';
   String cloudName = 'dfc5mnnqi';
+  late Database _database;
+  
+ 
+
 
   Future<void> pickImage() async {
     // Request permission based on Android version
@@ -50,6 +59,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
       setState(() {
         imageUrl = data['secure_url'];
+        _database.addProfile(data['secure_url']);
         print('uploaded $imageUrl');
       });
     }else{
@@ -59,6 +69,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<Authservice>(context);
+    print('user ${user.currentUser!.uid}');
+    _database = Database(uid: user.currentUser!.uid);
     return Scaffold(
       appBar: AppBar(title: const Text("Profile Page")),
       body: Center(
