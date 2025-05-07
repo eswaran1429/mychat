@@ -70,36 +70,87 @@ class _ProfilePageState extends State<ProfilePage> {
     final user = Provider.of<Authservice>(context);
     _database = Database(uid: user.currentUser!.uid);
     return Scaffold(
-      appBar: AppBar(title: const Text("Profile Page")),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            FutureBuilder<String?>(
-              future: getProfile(user.currentUser!.uid),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator(color: Colors.black,);
-                }
-                if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                  return Image.network(
-                    snapshot.data!,
-                    fit: BoxFit.contain,
-                  );
-                } else {
-                  return const Text('Add your profile');
-                  
-                }
-              },
+  appBar: AppBar(
+    title: const Text("Profile Page"),
+    centerTitle: true,
+    backgroundColor: Colors.blueAccent,
+  ),
+  body: Container(
+    width: double.infinity,
+    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
+    color: Colors.grey[100],
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Card(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          elevation: 4,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                FutureBuilder<String?>(
+                  future: getProfile(user.currentUser!.uid),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CircularProgressIndicator(color: Colors.blueAccent);
+                    }
+
+                    if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                      return CircleAvatar(
+                        radius: 130,
+                        backgroundImage: NetworkImage(snapshot.data!),
+                        backgroundColor: Colors.grey[200],
+                      );
+                    } else {
+                      return const CircleAvatar(
+                        radius: 60,
+                        backgroundColor: Colors.blueAccent,
+                        child: Text(
+                          "Add",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  "Your Profile Picture",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black87,
+                  ),
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: pickImage,
-              child: const Text('Pick Image'),
-            ),
-          ],
+          ),
         ),
-      ),
-    );
+        const SizedBox(height: 30),
+        ElevatedButton.icon(
+          onPressed: pickImage,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.blueAccent,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+          icon: const Icon(Icons.upload),
+          label: const Text(
+            'Upload Image',
+            style: TextStyle(fontSize: 16),
+          ),
+        ),
+      ],
+    ),
+  ),
+);
+
   }
 }
