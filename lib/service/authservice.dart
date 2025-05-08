@@ -25,7 +25,7 @@ class Authservice extends ChangeNotifier {
   Future anonymousLogin() async {
     try {
       UserCredential userCredential = await _auth.signInAnonymously();
-      Database(uid: currentUser!.uid, ).addUser(currentUser!.uid, currentUser!.email,name);
+      Database().addUser(currentUser!.uid, currentUser!.email,name);
       return userCredential;
     } catch (e) {
       print('error occured at $e');
@@ -36,7 +36,7 @@ class Authservice extends ChangeNotifier {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
-      Database(uid: currentUser!.uid,).addUser(currentUser!.uid,currentUser!.email,name);
+      Database().addUser(currentUser!.uid,currentUser!.email,name);
       return userCredential;
     } catch (e) {
       print('error occured at $e');

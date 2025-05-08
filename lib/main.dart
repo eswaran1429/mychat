@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:mychat/screens/googlelogin.dart';
 import 'package:mychat/service/authservice.dart';
 import 'package:mychat/wrapper.dart';
 import 'package:provider/provider.dart';

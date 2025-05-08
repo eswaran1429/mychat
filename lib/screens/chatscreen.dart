@@ -19,13 +19,7 @@ class Chatscreen extends StatefulWidget {
 
 class _ChatscreenState extends State<Chatscreen> {
   final TextEditingController _controller = TextEditingController();
-  late Database _database;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _database = Database(uid: widget.senderid,);
-  }
+  final Database _database = Database();
 
   void _sendMessage() async {
     if (_controller.text.trim().isNotEmpty) {

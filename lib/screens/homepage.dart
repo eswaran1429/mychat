@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mychat/model/usermodel.dart';
+import 'package:mychat/screens/add_contacts.dart';
 import 'package:mychat/screens/chatscreen.dart';
 import 'package:mychat/screens/profilepage.dart';
 import 'package:mychat/service/authservice.dart';
@@ -17,10 +18,10 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     final currentuser = FirebaseAuth.instance.currentUser;
-    Database _database = Database(uid: currentuser!.uid);
+    Database database = Database();
     String? profile;
     Future<String?> getProfile(String userId) async {
-      profile = await _database.getProfile(userId);
+      profile = await database.getProfile(userId);
       return profile;
     }
 
@@ -59,7 +60,7 @@ class _HomepageState extends State<Homepage> {
         ),
       ),
       appBar: AppBar(
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.blueGrey,
         title: const Text(
           'Chats',
           style: TextStyle(
@@ -80,8 +81,8 @@ class _HomepageState extends State<Homepage> {
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Center(
               child: Text(
-                '${currentuser.email}',
-                style: const TextStyle(fontSize: 16, color: Colors.white),
+                currentuser!.email![0].toUpperCase(),
+                style: const TextStyle(fontSize: 30, color: Colors.white),
               ),
             ),
           ),
@@ -102,9 +103,7 @@ class _HomepageState extends State<Homepage> {
             width: double.infinity,
           ),
           StreamBuilder<List<Usermodel>>(
-            stream: Database(
-              uid: currentuser.uid,
-            ).allUsers,
+            stream: Database().allUsers,
             builder: (context, snapshot) {
               if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return const Center(
@@ -194,14 +193,18 @@ class _HomepageState extends State<Homepage> {
                                     if (url != null && url.isNotEmpty) {
                                       return CircleAvatar(
                                         radius: 25,
-                                        backgroundImage:  NetworkImage(url),
+                                        backgroundImage: NetworkImage(url),
                                         backgroundColor: Colors.transparent,
                                       );
-                                    }else{
-                                      return  const CircleAvatar(
+                                    } else {
+                                      return const CircleAvatar(
                                         radius: 25,
                                         backgroundColor: Colors.blue,
-                                        child: Icon(Icons.person , size: 50,color: Colors.black,),
+                                        child: Icon(
+                                          Icons.person,
+                                          size: 50,
+                                          color: Colors.black,
+                                        ),
                                       );
                                     }
                                   })),
@@ -240,6 +243,13 @@ class _HomepageState extends State<Homepage> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blueGrey,
+        child: const Icon(Icons.add, color: Colors.black,),
+        onPressed: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const AddContactScreen()));
+      }),
     );
   }
 }

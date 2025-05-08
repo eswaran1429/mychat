@@ -21,7 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final ImagePicker _imagePicker = ImagePicker(); // Removed `?`
   String imageUrl = '';
   String cloudName = 'dfc5mnnqi';
-  late Database _database;
+  final Database _database = Database();
 
   String? profile;
   Future<String?> getProfile(String userId) async {
@@ -68,7 +68,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<Authservice>(context);
-    _database = Database(uid: user.currentUser!.uid);
     return Scaffold(
   appBar: AppBar(
     title: const Text("Profile Page"),
