@@ -4,8 +4,6 @@ import 'package:mychat/model/usermodel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Database {
-
- 
   final String uid = FirebaseAuth.instance.currentUser!.uid;
   final CollectionReference _user =
       FirebaseFirestore.instance.collection('users');
@@ -22,8 +20,7 @@ class Database {
     }
     return await _profile.doc(uid).set({'profile': profile});
   }
-  
-  
+
   Future<String?> getProfile(String userId) async {
     DocumentSnapshot snap = await _profile.doc(userId).get();
     if (snap.exists && snap.data() != null) {
@@ -52,13 +49,6 @@ class Database {
       'timestamp': FieldValue.serverTimestamp(),
     });
   }
-
-  Future<void> addContacts(String email) async{
-    await _contacts.doc(uid).collection('contacts').add({
-      'uid': email
-    });
-  }
-
 
 //get all messages
   Stream<List<Messagemodel>> getMessages(String chatId) {
@@ -97,5 +87,18 @@ class Database {
             name: data['name'] ?? 'no name');
       }).toList();
     });
+  }
+
+  Stream<List<Usermodel>> getContacts() {
+    return _contacts
+        .doc(uid)
+        .collection('contacts')
+        .snapshots()
+        .map((snap) => snap.docs
+        .map((doc) => doc.data()['email'] as Usermodel).toList());
+  }
+
+  Future<void> addContacts(String email) async {
+    await _contacts.doc(uid).collection('contacts').add({'email': email});
   }
 }
