@@ -89,14 +89,9 @@ class Database {
     });
   }
 
-  Stream<List<Usermodel>> getContacts() {
-    return _contacts
-        .doc(uid)
-        .collection('contacts')
-        .snapshots()
-        .map((snap) => snap.docs
-        .map((doc) => doc.data()['email'] as Usermodel).toList());
-  }
+  // Stream<List<Usermodel>> getContacts() {
+  //  List<Usermodel> contacts = [];
+  // }
 
   Future<void> addContacts(String email) async {
     await _contacts.doc(uid).collection('contacts').add({'email': email});
