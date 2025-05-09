@@ -103,7 +103,7 @@ class _HomepageState extends State<Homepage> {
             width: double.infinity,
           ),
           StreamBuilder<List<Usermodel>>(
-            stream: Database().allUsers,
+            stream: Database().getcontacts(),
             builder: (context, snapshot) {
               if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return const Center(

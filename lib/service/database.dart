@@ -89,9 +89,23 @@ class Database {
     });
   }
 
-  // Stream<List<Usermodel>> getContacts() {
-  //  List<Usermodel> contacts = [];
-  // }
+  Stream<List<Usermodel>> getcontacts() {
+    final contactsRef = _contacts.doc(uid).collection('contacts');
+
+    return contactsRef.snapshots().asyncMap((snap) async {
+      final emails = snap.docs.map((doc) => doc['email'] as String).toList();
+      List<Usermodel> users = [];
+      for (var i = 0; i < emails.length; i += 10) {
+        final chunk = emails.sublist(
+            i, (i + 10 > emails.length) ? emails.length : i + 10);
+
+        final userSnap = await _user.where('email', whereIn: chunk).get();
+        users.addAll(userSnap.docs.map((map) =>
+            Usermodel.fromMap(map.data() as Map<String, dynamic>, map.id)));
+      }
+      return users;
+    });
+  }
 
   Future<void> addContacts(String email) async {
     await _contacts.doc(uid).collection('contacts').add({'email': email});
