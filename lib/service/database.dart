@@ -111,3 +111,4 @@ class Database {
     await _contacts.doc(uid).collection('contacts').add({'email': email});
   }
 }
+ 

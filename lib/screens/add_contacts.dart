@@ -30,7 +30,7 @@ class _AddContactScreenState extends State<AddContactScreen> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to add contact: $e')),
-      );
+      );  
     } finally {
       setState(() => _isLoading = false);
     }
