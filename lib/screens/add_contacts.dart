@@ -25,7 +25,7 @@ class _AddContactScreenState extends State<AddContactScreen> {
       _database.addContacts(_emailController.text.trim());
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Contact added successfully')),
-      );
+      ); 
       _emailController.clear();
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
