@@ -40,9 +40,7 @@ class _AuthenticateState extends State<Authenticate> {
         _emailController.text.trim(),
         _passwordController.text.trim(),
       );
-
-      setState(() => _isLoading = false);
-    }
+    } 
   }
 
   void _login() async {
