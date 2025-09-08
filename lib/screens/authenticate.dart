@@ -22,7 +22,6 @@ class _AuthenticateState extends State<Authenticate> {
 
   @override
   void initState() {
-    // TODO: implement initState
     // goku@ball.com  dragonballs
     // luffy@zmeat.com
     // onepiece1234
